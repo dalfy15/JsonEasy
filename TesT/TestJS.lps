@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="TestJS.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="11" Y="14"/>
+        <UsageCount Value="200"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_CreatBig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="16"/>
+        <CursorPos X="14" Y="47"/>
+        <UsageCount Value="200"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="JsonEasy.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1203"/>
+        <CursorPos X="11" Y="1230"/>
+        <ExtraEditorCount Value="1"/>
+        <ExtraEditor1>
+          <EditorIndex Value="-1"/>
+          <WindowIndex Value="-1"/>
+          <TopLine Value="-1"/>
+          <CursorPos X="-1" Y="-1"/>
+        </ExtraEditor1>
+        <UsageCount Value="200"/>
+        <Bookmarks Count="8">
+          <Item0 Y="1270" Left="1" Top="1261"/>
+          <Item1 Y="1730" Left="1" Top="1709" ID="5"/>
+          <Item2 X="38" Y="324" Left="1" Top="316" ID="1"/>
+          <Item3 X="7" Y="325" Left="1" Top="316" ID="6"/>
+          <Item4 X="16" Y="301" Left="1" Top="284" ID="2"/>
+          <Item5 X="16" Y="1626" Left="1" Top="1609" ID="7"/>
+          <Item6 X="12" Y="812" Left="1" Top="804" ID="3"/>
+          <Item7 X="13" Y="523" Left="1" Top="495" ID="4"/>
+        </Bookmarks>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_Array.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="122"/>
+        <CursorPos X="26" Y="141"/>
+        <UsageCount Value="200"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_Cache.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="39"/>
+        <CursorPos X="33" Y="57"/>
+        <UsageCount Value="109"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\rtl-objpas\src\inc\variants.pp"/>
+        <UnitName Value="Variants"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4"/>
+        <CursorPos X="3" Y="272"/>
+        <UsageCount Value="100"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\varianth.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="105"/>
+        <CursorPos X="4" Y="68"/>
+        <UsageCount Value="100"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\objpas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="321"/>
+        <CursorPos X="9" Y="325"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="JsonTools_varnt.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="566"/>
+        <CursorPos X="15" Y="577"/>
+        <UsageCount Value="93"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\components\fpcunit\guitestrunner.pas"/>
+        <UnitName Value="GuiTestRunner"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="998"/>
+        <CursorPos Y="1022"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\lcl\include\customaction.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="230"/>
+        <CursorPos Y="247"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-base\src\contnrs.pp"/>
+        <UnitName Value="Contnrs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="440"/>
+        <CursorPos X="3" Y="448"/>
+        <UsageCount Value="14"/>
+      </Unit>
+      <Unit>
+        <Filename Value="JsonTools_virt (2).pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1603"/>
+        <CursorPos X="41" Y="11"/>
+        <UsageCount Value="1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="JsonTools_varnt (2).pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="919"/>
+        <CursorPos X="41" Y="485"/>
+        <UsageCount Value="1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="jsontools исходный.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="833"/>
+        <CursorPos X="14" Y="849"/>
+        <UsageCount Value="1"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\sysstr.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2373"/>
+        <CursorPos X="21" Y="2381"/>
+        <UsageCount Value="2"/>
+      </Unit>
+      <Unit>
+        <Filename Value="jsontools+.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="270"/>
+        <CursorPos X="33" Y="304"/>
+        <UsageCount Value="69"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\sysinth.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="41"/>
+        <CursorPos X="6" Y="37"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\system.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1266"/>
+        <CursorPos X="3" Y="1271"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\me_my.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="208"/>
+        <CursorPos X="14" Y="225"/>
+        <UsageCount Value="35"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\sysstrh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <CursorPos X="29" Y="26"/>
+        <UsageCount Value="3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="JsonTools_varnt_optimized.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="642"/>
+        <CursorPos X="29" Y="631"/>
+        <UsageCount Value="53"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\rtl-objpas\src\inc\strutils.pp"/>
+        <UnitName Value="StrUtils"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1149"/>
+        <CursorPos X="3" Y="1157"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\win\syswinh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="15" Y="17"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\astrings.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1406"/>
+        <CursorPos X="3" Y="1410"/>
+        <UsageCount Value="6"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="202"/>
+        <CursorPos X="5" Y="220"/>
+        <UsageCount Value="4"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\systemh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1499"/>
+        <CursorPos X="11" Y="1516"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\objpash.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="391"/>
+        <CursorPos X="7" Y="400"/>
+        <UsageCount Value="5"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\lists.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="209"/>
+        <CursorPos X="3" Y="217"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\packages\fcl-fpcunit\src\fpcunit.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="972"/>
+        <CursorPos X="3" Y="980"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\syssr.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <CursorPos X="12" Y="36"/>
+        <UsageCount Value="2"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\x86_64\x86_64.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="75"/>
+        <CursorPos X="11" Y="77"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\components\lazutils\lazutf8.pas"/>
+        <UnitName Value="LazUTF8"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="443"/>
+        <CursorPos Y="460"/>
+        <UsageCount Value="3"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_Invalid.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="53" Y="11"/>
+        <UsageCount Value="87"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\JsonEasy.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="30" Y="8"/>
+        <UsageCount Value="82"/>
+        <Bookmarks Count="2">
+          <Item0 X="41" Y="1010" Left="1" Top="965" ID="4"/>
+          <Item1 X="19" Y="1629" Left="2" Top="1620" ID="5"/>
+        </Bookmarks>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\JsonEasy (5).pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1037"/>
+        <CursorPos X="22" Y="1052"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_Primitiv.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="334"/>
+        <CursorPos Y="350"/>
+        <UsageCount Value="68"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\jsontools.pas"/>
+        <UnitName Value="JsonTools"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="115"/>
+        <CursorPos X="20" Y="131"/>
+        <UsageCount Value="59"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\me_my.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2174"/>
+        <CursorPos X="10" Y="2190"/>
+        <UsageCount Value="12"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\lcl\include\treeview.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3612"/>
+        <CursorPos X="3" Y="1658"/>
+        <UsageCount Value="39"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\JsonEasy (7).pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1265"/>
+        <CursorPos X="3" Y="1277"/>
+        <UsageCount Value="7"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\lcl\comctrls.pp"/>
+        <UnitName Value="ComCtrls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3149"/>
+        <CursorPos X="17" Y="3142"/>
+        <UsageCount Value="27"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\math.pp"/>
+        <UnitName Value="Math"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2154"/>
+        <CursorPos X="11" Y="2160"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\me_searchFile.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="17" Y="18"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\sysuni.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="182"/>
+        <CursorPos X="7" Y="193"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\JsonEasy (8).pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1462"/>
+        <CursorPos X="3" Y="1469"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_Nex.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="117"/>
+        <CursorPos X="24" Y="4"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="Test_Commentarii.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="72"/>
+        <CursorPos Y="72"/>
+        <UsageCount Value="11"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="27">
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="199" Column="45" TopLine="188"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="258" Column="15" TopLine="241"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="260" Column="85" TopLine="241"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="266" Column="17" TopLine="226"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="260" Column="82" TopLine="234"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="258" Column="12" TopLine="234"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="118" Column="52" TopLine="104"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="195" Column="64" TopLine="168"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="197" Column="68" TopLine="170"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="199" Column="45" TopLine="172"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="258" Column="15" TopLine="232"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="260" Column="85" TopLine="234"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="266" Column="17" TopLine="240"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="271" Column="9" TopLine="245"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="266" Column="35" TopLine="246"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="271" Column="9" TopLine="246"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="1333" Column="9" TopLine="1305"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="1360" Column="15" TopLine="1333"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="1362" Column="21" TopLine="1335"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="1713" Column="13" TopLine="1685"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="1730" Column="82" TopLine="1702"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="1819" Column="18" TopLine="1791"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="2201" Column="11" TopLine="2174"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="2289" Column="11" TopLine="2262"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="2377" Column="11" TopLine="2349"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="2622" Column="15" TopLine="2595"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="2687" Column="9" TopLine="2660"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="56" Column="9" TopLine="52"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="108" Column="10" TopLine="82"/>
+      </Position>
+      <Position>
+        <Filename Value="..\JsonEasy.pas"/>
+        <Caret Line="109" Column="14" TopLine="82"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\JsonEasy.pas"/>
+        <Line Value="1683"/>
+      </Item>
+    </BreakPoints>
+    <Watches>
+      <Item ClassAutoCast="True">
+        <Expression Value="pJS"/>
+        <DisplayFormat PointerInherit="False"/>
+      </Item>
+      <Item ClassAutoCast="True">
+        <Expression Value="Token"/>
+        <DisplayFormat PointerInherit="False"/>
+      </Item>
+      <Item ClassAutoCast="True">
+        <Expression Value="FStack"/>
+      </Item>
+    </Watches>
+  </Debugging>
+</CONFIG>
