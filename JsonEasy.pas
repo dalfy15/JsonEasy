@@ -14,18 +14,24 @@
 
 (* Создаём экземпляр и включаем кэширование путей:
    jCfg := TJsonNode.Create;
-   jCfg.CachePathEnabled := True;
+   jCfg.CachePathEnabled := True; //Enable Cache
 
 * Создаём новый узел и запоминаем его в переменной ( nod := jCfg.AddObj )
-   1) jCfg.Parse( 'Obj:ObName' );
-   2) nod := jCfg.AddObj( 'Obj' ).AddObj( 'ObName' );
-   3) nod := jCfg.Force( 'Obj/ObName2' );
-   4) jCfg.Force( 'obj/name', 'Alice' );
-   5) jCfg.Force( 'obj' ).AddElm( 'age', 25 );
-   6) jCfg.Force( 'name' ).Value  := 'Alice';
-   7) jCfg.Force( 'Person/Object' ).Value:= '{name:"John' +#10+ 'Stiv",age:30,cars:True}';
-   8) jCfg.AddElm( 'Petrov', '{name:Ivan,ege:33, car:"Lada"}' );
-   9) jCfg.Parse( a1:1_000_0, a2: -3.0_01, a3: -0x054, a4:.04, a5: -5_00.6E-2 );
+   1) jCfg.AddElm( 'Petrov', 'Ivan Ivanovich' );   //Petrov:Ivan Ivanovich
+   2) jCfg.AddElm( 'Petrov', '"Ivan Ivanovich"' ); //Petrov:"Ivan Ivanovich"
+   3) jCfg.AddElm( 'Petrov', '{name:Ivan,ege:33}' ); => Petrov:{name:Ivan,ege:33}
+   4) jCfg.AddElm( 'Petrov'+#10+'two', 'Ivan'+#10+'Ivanovich' );
+
+   5) nod := jCfg.AddObj( 'Obj' ).AddObj( 'ObName' );
+   6) nod := jCfg.Force( 'Obj/ObName2' );
+
+   7) jCfg.Force( 'obj/name', 'Alice' );
+   8) jCfg.Force( 'obj name/name first' ).AddElm( 'age', 25 );
+   9) jCfg.Force( 'name' ).Value  := 'Alice';
+   10) jCfg.Force( 'Person/Object' ).Parse('{name:"John' +#10+ 'Stiv",age:30,cars:True}');
+
+   11) jCfg.Parse( 'Obj:ObName' );
+   12) jCfg.Parse( a1:1_000_0, a2: -3.0_01, a3: -0x054, a4:.04, a5: -5_00.6E-2 );
 
 * Создаём массив и добавляем элементы:
    1) jCfg.Parse( '"cars":["Ford","BMW" , "Fiat"]' );
@@ -33,7 +39,8 @@
       jCfg.AddArr( 'arr', 'Moscvich' );
       jCfg.AddArr( 'arr' ).AddArrElm( 'Ford' );
       jCfg.AddArr( 'arr' ).AddArrElm( 'BMW' ).AddArrElm( 'Fiat' );
-   jCfg.AddArr( 'arr' ).Count
+   3) jCfg.AddArr( 'arr2' ).Parse := ('2, two only    , true' ); arr2:[2, "two only", true]
+   4) jCfg.AddArr( 'arr' ).Count
 
 * Oбъединяем элементы в объекте ( AddMerge )
    1) jCfg.Find( 'Obj' ).AddMerge( nod.Find( 'Obj' ), True ); // без замены
@@ -41,11 +48,11 @@
 
 * Поиск по пути:
    1) node := jCfg.Find( 'person/name' );
-   2) Form1.Width  := jCfg.Find('ui/main_window/width', 800); //800 - по умолчанию
+   2) Form1.Width  := jCfg.Find('main window/width all', 800); //800 - Default
 
 * Саздание комментариев:
     1) jCfg.AddComment('Сколько лет: ');
-    2) jCfg.Parse( '{//"Сколько лет:",value:42, //авто, car:[Москвич, BMW]}' );
+    2) jCfg.Parse( '{//"Сколько лет:",value:42, //авто моё, car:[Москвич, BMW]}' );
 
 * Сохранить/загрузить в файл:
     1) jCfg.SaveToFile( 'config.json' );
@@ -265,16 +272,27 @@ type
     // Найдите узел, используя строку пути. Search for a node using a path string
     //Начинается с '/' - начать поиск с корня. Равен '/' - возвращает корень
     function Find( const Path: string ): TJsonNode; overload;
-    // Найдите значение узла, используя строку пути, если поиск =nil, то вернёт AValueDefault
-    function Find( const Path: string; const AValueDefault: variant ): variant; overload;
     { Найдите узел, используя строку пути, и верните значение true, если он существует.
       Search for a node using a path string and return true if exists }
     function Find( const Path: string; out Node: TJsonNode ): boolean; overload;
+    // Найдите узел, массив собирётся в путь. Search for a node using a path string
+    //Начинается с '/' - начать поиск с корня.
+    function Find( const Path: array of string ): TJsonNode; overload;
+    // Найдите значение узла, используя строку пути, если поиск =nil, то вернёт AValueDefault
+    function Find( const Path: string; const AValueDefault: variant ): variant; overload;
+    // Найдите значение узла, используя строку пути, если поиск =nil, то вернёт AValueDefault
+    //Начинается с '/' - начать поиск с корня.
+    function Find( const Path: array of string; const AValueDefault: variant ): variant; overload;
     // Принудительно создать ряд узлов (Объектов) и вернуть конечный узел.
     {Начинается с '/' - начать поиск с корня. Равен '/' - возвращает корень
      Path='' - Добавить объект.
      Force a series of nodes to exist and return the end node }
     function Force( const Path: string ): TJsonNode; overload;
+    // Принудительно создать ряд узлов (Объектов) и вернуть конечный узел.
+    {Начинается с '/' или aRoot=true - начать поиск с корня. Равен '/' - возвращает корень
+     Path='' - Добавить объект.
+     Force a series of nodes to exist and return the end node }
+    function Force( const Path: array of string; aRoot: boolean = False ): TJsonNode; overload;
     // Принудительно создать ряд узлов (Объект), добавить переменную в последний узел
     //и вернуть последний узел.
     function Force( const Path: string; aValue: variant ): TJsonNode; overload;
@@ -598,6 +616,11 @@ var
     Token.Head := Start;
     Token.Tail := pJS;
     Token.Kind := tkString;
+
+    //если не было кавычек, то не учитываем конечные пробелы
+    if not ( s0 in ['"', ''''] ) and ( Start <> pJS ) then
+      while ( ( Token.Tail - 1 )^ <= ' ' ) and ( Token.Tail^ <> #0 ) do
+        Dec( Token.Tail );
   end;
 
 begin
@@ -652,7 +675,7 @@ begin
           else
             Inc( pJS );
 
-      ' ', '{', '}', '[', ']', ',', ':', #0: // - допускается внутри кавычек
+      '{', '}', '[', ']', ',', ':', #0: // - допускается внутри кавычек
         U2:
           if not ( ( s0 <> '"' ) xor ( s0 <> '''' ) ) then
             begin
@@ -661,6 +684,9 @@ begin
             end
           else
             Inc( pJS );
+
+      ' ':
+        Inc( pJS );
 
       #10:           //допускаем перенос строк в " или в '
         U3:
@@ -776,8 +802,7 @@ begin
     Token.Tail := pJS
   else
     begin
-    pJS        := Token.Head;
-    Token.Kind := tkError;
+    pJS := Token.Head;
     ParseStringToken( pJS, Token );
     end;
 end;
@@ -923,6 +948,7 @@ procedure TJsonNode.ParseJSON( var pJS: pchar );
 var
   Token:    TJsonToken;
   NodeName: string = '';
+  arrNew:   boolean = True;
 
 //создать массив в массиве или в объекте, скобка уже открыта
   procedure arrayNew( NodeParent: TJsonNode );
@@ -930,16 +956,23 @@ var
     NodeChild: TJsonNode;
   begin
     // Создаём пустой массив
-    NodeChild := NodeParent.AddArr( NodeName );
+    if arrNew then
+      NodeChild := NodeParent.AddArr( NodeName )
+    else
+      begin
+      arrNew    := True;
+      NodeChild := NodeParent;
+      end;
 
     //Заполняем массив элементами
     while NextToken( pJS, Token ) do
       case Token.Kind of
         tkNull, tkTrue, tkFalse, tkString, tkNumber, tkFloat, tkNaN, tkNumber_,
-        tkFloat_: NodeChild.AddArrElm( Token.Value );
+        tkFloat_:
+          NodeChild.AddArrElm( Token.Value );
 
         tkComma{, tkObjectClose}: Continue;
-        tkArrayClose: Break;
+        tkArrayClose, tkEnd: Break;
         tkObjectOpen: NodeChild.AddObj( '' ).ParseJSON( pJS );
         tkArrayOpen: arrayNew( NodeChild );
         else
@@ -954,59 +987,66 @@ begin
     Error( errNotCollection );
 
   while NextToken( pJS, Token ) do
-    case Token.Kind of
-      tkString:
-        begin
-        //имя объекта/значения
-        NodeName := JsonStringDecode( Token.Value );
+    if FKind = nkArray then
+      begin
+      pJS    := Token.Head;
+      arrNew := False;
+      arrayNew( Self );
+      end
+    else
+      case Token.Kind of
+        tkString:
+          begin
+          //имя объекта/значения
+          NodeName := JsonStringDecode( Token.Value );
 
-        // Ожидается: ":"
-        if not NextToken( pJS, Token ) then
-          Error( errColumn + NodeName );
+          // Ожидается: ":"
+          if not NextToken( pJS, Token ) then
+            Error( errColumn + NodeName );
 
-        // Ожидается: Значение, "{", "["
-        if NextToken( pJS, Token ) then
-          case Token.Kind of
-            tkNull, tkTrue, tkFalse, tkString, tkNumber, tkFloat,
-            tkNumber_, tkFloat_, tkNaN:
-              AddNode( nkElm, NodeName, Token.Value );
+          // Ожидается: Значение, "{", "["
+          if NextToken( pJS, Token ) then
+            case Token.Kind of
+              tkNull, tkTrue, tkFalse, tkString, tkNumber, tkFloat,
+              tkNumber_, tkFloat_, tkNaN:
+                AddNode( nkElm, NodeName, Token.Value );
 
-            tkObjectOpen: AddObj( NodeName ).ParseJSON( pJS );
-            tkArrayOpen: arrayNew( Self )
-            else
-              Error( errParsingError );
-            end
+              tkObjectOpen: AddObj( NodeName ).ParseJSON( pJS );
+              tkArrayOpen: arrayNew( Self )
+              else
+                Error( errParsingError );
+              end
+          else
+            Error( errZnachenie + NodeName );
+          end;
+
+        tkComma: Continue;      // Переходим к следующему свойству
+
+        //разбор начинается с "{" - добавляем объект.
+        tkObjectOpen:
+          if FKind = nkObject then
+            // Если мы в объекте - добавляем новые значения в текущий объект
+            Continue
+          else
+            AddObj( NodeName ).ParseJSON( pJS );
+
+        //разбор начинается с "[" - добавляем массив
+        tkArrayOpen:
+          if FKind = nkArray then
+            arrayNew( Self )
+          else
+            Error( errNotArray );
+
+        tkObjectClose, tkArrayClose: Break;
+
+        tkComment:
+          AddNode( nkcomment, GUIDToString( TGuid.NewGuid ), Token.Value );
+
+        tkEnd: Break;
+
         else
-          Error( errZnachenie + NodeName );
+          Error;
         end;
-
-      tkComma: Continue;      // Переходим к следующему свойству
-
-      //разбор начинается с "{" - добавляем объект.
-      tkObjectOpen:
-        if FKind = nkObject then
-          // Если мы в объекте - добавляем новые значения в текущий объект
-          Continue
-        else
-          AddObj( NodeName ).ParseJSON( pJS );
-
-      //разбор начинается с "[" - добавляем массив
-      tkArrayOpen:
-        if FKind = nkArray then
-          arrayNew( Self )
-        else
-          Error( errNotArray );
-
-      tkObjectClose, tkArrayClose: Break;
-
-      tkComment:
-        AddNode( nkcomment, GUIDToString( TGuid.NewGuid ), Token.Value );
-
-      tkEnd: Break;
-
-      else
-        Error;
-      end;
 end;
 
 //true, если расшифровка JSONString прошла успешно
@@ -1109,15 +1149,14 @@ begin
   Result := Self;
 
   if nkStrukt then
-    begin
-    if VarIsStr( AValue ) then
-      begin
-      if not Parse( elmName + ':' + VarToStr( AValue ) ) then
-        Error( errParsingError + ': ' + elmName + ':' + VarToStr( AValue ) );
-      end
-    else
-      AddNode( nkElm, elmName, AValue );
-    end
+    AddNode( nkElm, elmName, AValue )
+  //if VarIsStr( AValue ) then
+  //  begin
+  //  if not Parse( elmName + ':' + VarToStr( AValue ) ) then
+  //    Error( errParsingError + ': ' + elmName + ':' + VarToStr( AValue ) );
+  //  end
+  //else
+
   else
     Error( errNotCollection );
 end;
@@ -1424,64 +1463,64 @@ begin
 end;
 
 procedure TJsonNode.SetValue( AValue: variant );
-var
-  pJS: pchar;
-  Token, TokenColon: TJsonToken;
+ //var
+ //  pJS: pchar;
+ //  Token, TokenColon: TJsonToken;
 begin
   if Self = nil then Error( errNilElement );
 
-  //в строке могут быть переносы
-  if VarIsStr( AValue ) then
+  ////в строке могут быть переносы
+  //if VarIsStr( AValue ) then
+  //  begin
+  //  pJS := PChar( VarToStr( AValue ) );
+  //  if NextToken( pJS, Token ) then
+  //    case Token.Kind of
+  //      tkNull, tkTrue, tkFalse, tkString, tkNumber, tkFloat,
+  //      tkNumber_, tkFloat_, tkNaN:
+  //        if Self <> Root then
+  //          if NextToken( pJS, TokenColon ) and ( TokenColon.Kind = tkColon ) then
+  //            Parse( AValue )
+  //          else
+  //            begin
+  //            if Token.Kind = tkComment then
+  //              FKind := nkComment
+  //            else
+  //              if ( FKind = nkObject ) and VarIsEmpty( FValue ) and ( FItems = nil ) then
+  //                FKind := nkElm;
+
+  //            if FKind = nkArray then
+  //              AddArrElm( Token.Value )
+  //            else
+  //              FValue := Token.Value;
+  //            end
+  //        else
+  //          Error( errRootValue + '(' + VarToStrDef( AValue, '' ) + ')' );
+
+  //      //строка оказалась JSON-строка - разбираем её
+  //      tkObjectOpen, tkArrayOpen:
+  //        if nkStrukt then
+  //          Parse( AValue )
+  //        else
+  //          Error( FName + ': ' + errNotCollection );
+  //      end
+  //  else
+  //    Error( errZnachenie + Name );
+  //  end
+
+  //else
+  ////если не строка (число, нил, ...), то просто присвоить
+  if Self <> Root then
     begin
-    pJS := PChar( VarToStr( AValue ) );
-    if NextToken( pJS, Token ) then
-      case Token.Kind of
-        tkNull, tkTrue, tkFalse, tkString, tkNumber, tkFloat,
-        tkNumber_, tkFloat_, tkNaN:
-          if Self <> Root then
-            if NextToken( pJS, TokenColon ) and ( TokenColon.Kind = tkColon ) then
-              Parse( AValue )
-            else
-              begin
-              if Token.Kind = tkComment then
-                FKind := nkComment
-              else
-                if ( FKind = nkObject ) and VarIsEmpty( FValue ) and ( FItems = nil ) then
-                  FKind := nkElm;
+    if ( FKind = nkObject ) and VarIsEmpty( FValue ) and ( FItems = nil ) then
+      FKind := nkElm;
 
-              if FKind = nkArray then
-                AddArrElm( Token.Value )
-              else
-                FValue := Token.Value;
-              end
-          else
-            Error( errRootValue + '(' + VarToStrDef( AValue, '' ) + ')' );
-
-        //строка оказалась JSON-строка - разбираем её
-        tkObjectOpen, tkArrayOpen:
-          if nkStrukt then
-            Parse( AValue )
-          else
-            Error( FName + ': ' + errNotCollection );
-        end
+    if FKind = nkArray then
+      AddArrElm( AValue )
     else
-      Error( errZnachenie + Name );
+      FValue := AValue;
     end
-
   else
-  //если не строка (число, нил, ...), то просто присвоить
-    if Self <> Root then
-      begin
-      if ( FKind = nkObject ) and VarIsEmpty( FValue ) and ( FItems = nil ) then
-        FKind := nkElm;
-
-      if FKind = nkArray then
-        AddArrElm( AValue )
-      else
-        FValue := AValue;
-      end
-    else
-      Error( errRootValue );
+    Error( errRootValue );
 end;
 
 function TJsonNode.GetCount: integer;
@@ -1734,7 +1773,7 @@ end;
 
 // Найдите узел, используя строку пути. Search for a node using a path string
 (*Начинается с '/' - начать поиск с корня. Равен '/' - возвращает корень *)
-function TJsonNode.Find( const Path: string ): TJsonNode;
+function TJsonNode.Find( const Path: string ): TJsonNode; overload;
 var
   Node: TJsonNode;
   A, B: pchar;
@@ -1743,6 +1782,7 @@ var
 begin
   Result := nil;
 
+  if Self = nil then Exit( nil );
   if Path = '' then  Exit( Child( '' ) );
 
   // Используем кэш если включен
@@ -1808,8 +1848,30 @@ begin
       FCachePath.Add( '/' + Path, Result );
 end;
 
+{ Найдите узел, используя строку пути, и верните значение true, если он существует.
+      Search for a node using a path string and return true if exists }
+function TJsonNode.Find( const Path: string; out Node: TJsonNode ): boolean;
+begin
+  Node   := Find( Path );
+  Result := Node <> nil;
+end;
+
+// Найдите узел, массив собирётся в путь. Search for a node using a path string
+//Начинается с '/' - начать поиск с корня.
+function TJsonNode.Find( const Path: array of string ): TJsonNode; overload;
+var
+  s:   string;
+  str: string = '';
+begin
+  for s in Path do
+    str += s + '/';
+  system.Delete( str, Length( str ), 1 );
+
+  Result := Find( str );
+end;
+
 { Найдите значение узла, используя строку пути, если поиск =nil, то вернёт AValueDefault }
-function TJsonNode.Find( const Path: string; const AValueDefault: variant ): variant;
+function TJsonNode.Find( const Path: string; const AValueDefault: variant ): variant; overload;
 var
   Node: TJsonNode;
 begin
@@ -1820,13 +1882,25 @@ begin
     Result := AValueDefault;
 end;
 
-{ Найдите узел, используя строку пути, и верните значение true, если он существует.
-      Search for a node using a path string and return true if exists }
-function TJsonNode.Find( const Path: string; out Node: TJsonNode ): boolean;
+// Найдите значение узла, используя строку пути, если поиск =nil, то вернёт AValueDefault
+//Начинается с '/' - начать поиск с корня.
+function TJsonNode.Find( const Path: array of string; const AValueDefault: variant ): variant; overload;
+var
+  s:    string;
+  str:  string = '';
+  Node: TJsonNode;
 begin
-  Node   := Find( Path );
-  Result := Node <> nil;
+  for s in Path do
+    str += s + '/';
+  system.Delete( str, Length( str ), 1 );
+
+  Node := Find( str );
+  if Assigned( Node ) then
+    Result := Node.Value
+  else
+    Result := AValueDefault;
 end;
+
 
 
 // Принудительно создать ряд узлов (Объектов) и вернуть конечный узел.
@@ -1922,6 +1996,21 @@ begin
   //    FCachePath.Add( Path, Result )
   //  else
   //    FCachePath.Add( '/' + Path, Result );
+end;
+
+function TJsonNode.Force( const Path: array of string; aRoot: boolean = False ): TJsonNode;
+var
+  s:   string;
+  str: string = '';
+begin
+  for s in Path do
+    str += s + '/';
+  system.Delete( str, Length( str ), 1 );
+
+  if aRoot and ( str[1] <> '/' ) then
+    Result := Force( '/' + str )
+  else
+    Result := Force( str );
 end;
 
 // Принудительно создать ряд узлов (Объект), добавить переменную в последний узел
