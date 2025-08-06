@@ -60,7 +60,7 @@ procedure TTestCommentarii.SaveLoadFromFile;
 var
   json2: TJsonNode;
 begin
-  Json.Parse( '{"test":"data",//"Сколько лет:",value:42, //авто, car:[Москвич, BMW]}' );
+  Json.Parse( '{"test":"data",//"Сколько лет:",value:42, //авто моё, car:[Москвич, BMW]}' );
 
   AssertTrue( 'Save to file1', Json.SaveToFile( saveName, jfExpand ) );
   AssertTrue( 'Save to file3', Json.SaveToFile( saveName, jfCompressed ) );

@@ -57,9 +57,16 @@ end;
 procedure TTestArray.TestParseArr_Nachinaetsya_s_imeni;
 begin
   Json.Parse( '"cars":["Ford","BMW" , "Fiat"]' );
+  Json.AddArr( 'arr1' ).Parse( 'один,два, три    ,	 четыре' );
+  Json.AddArr( 'arr2' ).Parse( '2, two  , true' );
+  Json.AddArr( 'arr3' ).Parse( '2, two one , true' );
   AssertTrue( 'Save to file', Json.SaveToFile( saveName, jfCompact ) );
 
   AssertEquals( 'String value', 'Fiat', Json.Find( 'cars/2' ).Value );
+  AssertEquals( 'строка', 'три', Json.Find( 'arr1/2' ).Value );
+  AssertEquals( 'число', 2, Json.Find( 'arr2/0' ).Value );
+  AssertTrue( 'true', Json.Find( 'arr2/2' ).Value );
+  AssertEquals( 'строка', 'two one', Json.Find( 'arr3/1' ).Value );
 end;
 
 procedure TTestArray.TestParseArr_Nachinaetsya_s_imeni_bez_kavyhchek;

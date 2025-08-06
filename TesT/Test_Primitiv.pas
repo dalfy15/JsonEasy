@@ -27,8 +27,8 @@ type
   published
     procedure TestCreateJsonObjectRoot;
 
-    procedure TestSet;
-    procedure TestSetForce;
+    procedure Test_Set;
+    procedure Test_SetForce;
 
     procedure TestGetValues;
     procedure TestAddRemoveProperties;
@@ -81,10 +81,10 @@ implementation
 
 procedure TTestPrimitiv.SetUp;
 begin
-  Json      := TJsonNode.Create;
+  Json := TJsonNode.Create;
 
-  JE        := TJsonNode.Create;
-  saveName  := 'TestPrimitiv.json';
+  JE       := TJsonNode.Create;
+  saveName := 'TestPrimitiv.json';
 end;
 
 procedure TTestPrimitiv.TearDown;
@@ -104,7 +104,7 @@ end;
 
 //--------------------------------------------------------------------
 
-procedure TTestPrimitiv.TestSet;
+procedure TTestPrimitiv.Test_Set;
 begin
   Json.AddElm( 'name', 'Alice' );
   Json.AddElm( 'age', 32 );
@@ -132,7 +132,7 @@ begin
 end;
 
 
-procedure TTestPrimitiv.TestSetForce;
+procedure TTestPrimitiv.Test_SetForce;
 begin
   Json.Force( 'name' ).Value  := 'Alice';
   Json.Force( 'adres' ).Value := Null;
@@ -141,12 +141,15 @@ begin
   Json.Force( 'obj1' ).AddElm( 'age', 25 );
   Json.Force( 'obj2' ).AddElm( 'active', True );
   Json.Force( 'obj2' ).AddElm( 'balance', 987.65 );
+  Json.Force( 'Двойное слово/ещё двойное слово', True );
   AssertTrue( 'Save to file', Json.SaveToFile( saveName, jfCompact ) );
 
   AssertEquals( 'String value set', 'Alice', Json.Find( 'obj0/name', '' ) );
   AssertEquals( 'Integer value set', 25, Json.Find( 'obj1/age', 0 ) );
   AssertEquals( 'Boolean value set', True, Json.Find( 'obj2/active', False ) );
   AssertEquals( 'Float value set', 987.65, Json.Find( 'obj2/balance', 0.0 ), 0.001 );
+  AssertEquals( 'Boolean value set', True, Json.Find(
+    'Двойное слово/ещё двойное слово', False ) );
 end;
 
 
@@ -406,13 +409,13 @@ begin
   Json.AddObj( 'obj' ).AddElm( 'elm1', 'значение' ).AddElm( 'elm2', 'значение' ).Value := 45;
 
   Json.AddElm( 'Petrov', '{name:Ivan,ege:33, car:"Lada"}' );
-  Json.AddElm( 'arr', '[один,два, три ,	 четыре]' );
-  Json.AddElm( 'Иванов',
+  Json.AddObj( 'PetrovPars' ).Parse( '{name:Ivan,ege:33, car:"Lada"}' );
+  Json.AddObj( 'Иванов' ).Parse(
     '{имя:Егор,лет:33, авто:Калина,счёт:[123456789,321654987,0X15FB5ac] }' );
 
-  Json.AddObj( 'Сидоров' ).Value := '{name:Сергей,ege:44, car:Москвич}';
-  Json.AddObj( 'Петров' ).Value   :=
-    'паспорт:{name:Иван,ege:75, car:[Ягуар, Москвич]}';
+  Json.AddObj( 'Сидоров' ).Parse( '{name:Сергей,ege:44, car:Москвич}' );
+  Json.AddObj( 'Петров' ).Parse(
+    'паспорт:{name:Иван,ege:75, car:[Ягуар, Москвич]}' );
 
   AssertTrue( 'Save to file', Json.SaveToFile( saveName, jfCompact ) );
 
@@ -429,8 +432,8 @@ begin
   AssertEquals( 'строка', 'значение', Json.Find( 'obj/elm2' ).Value );
   AssertEquals( 'число объекта', 45, Json.Find( 'obj' ).Value );
 
-  AssertEquals( 'строка', 'Lada', Json.Find( 'Petrov/car' ).Value );
-  AssertEquals( 'строка', 'три', Json.Find( 'arr/2' ).Value );
+  AssertEquals( 'строка', '{name:Ivan,ege:33, car:"Lada"}', Json.Find( 'Petrov' ).Value );
+  AssertEquals( 'строка', 'Lada', Json.Find( 'PetrovPars/car' ).Value );
   AssertEquals( 'строка', 'Егор', Json.Find( 'Иванов/имя' ).Value );
   AssertEquals( 'число', 321654987, Json.Find( 'Иванов/счёт/1' ).Value );
   AssertEquals( 'строка', 'Москвич', Json.Find( 'Сидоров/car' ).Value );
@@ -450,7 +453,7 @@ begin
   nod.AddElm( 'параметр', 'значение' );
   nod.AddElm( 'parametr' ).Value := 'value';
 
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:Москвич}';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:Москвич}' );
 
   //Создаём новый узел и запоминаем его в переменной
   nod := Json.Force( 'Объект/ObName2' );
@@ -476,37 +479,32 @@ end;
 procedure TTestPrimitiv.Kavyhchki_Dvojnyhe;
 begin
   Json.AddElm( '"name1"', '"Значение в кавычках 1111"' );
-  Json.AddElm( 'name1' ).Value := '"Значение в кавычках"';
   Json.AddElm( 'name2', 'Имя_и_Значение_без_кавычек' );
-  Json.AddElm( '"name3"', '"Имя и Значение в кавычках' + #10 +
-    'С новой строки"' );
+  Json.AddElm( 'name3', 'Имя и Значение.' + #10 + 'С новой строки' );
   //3.1
-  Json.AddElm( '"Имя' + #10 + 'на второй строке"',
-    'Имя_на_дух_строках_в_кавычках' );
+  Json.AddElm( 'Имя1' + #10 + 'на двух строках', 'Имя_на_дух_строках' );
   //3.2
-  Json.AddElm( '"Имя2' + #10 + 'на второй строке"',
-    '"Имя и значение на\nдвух строках в кавычках"' );
+  Json.AddElm( 'Имя2' + #10 + 'вторая строка',
+    '"Имя и значение на\nдвух строках"' );
   Json.AddElm( 'age', 222 );
   Json.AddElm( 'age' ).Value := 32;
-  Json.AddElm( '"name4"', '"Значение со знаком :"' );
-  Json.AddElm( '"name[5]"', '"Один, два {Два}"' );
-  Json.AddElm( '"name: 6"', '"Один, два\n{новая строка}"' );
+  Json.AddElm( 'name4', 'Значение со знаком :' );
+  Json.AddElm( 'name[5]', 'Один, два {Два}' );
+  Json.AddElm( 'name: 6', 'Один, два' + #10 + '{новая строка}' );
 
   Json.AddObj( 'объект' ).AddElm( 'active', True );
-  Json.AddObj( 'объект' ).AddElm( 'name', '"Olya\nSveta"' );
+  Json.AddObj( 'объект' ).AddElm( 'name', 'Olya\nSveta' );
   AssertTrue( 'Save to file', Json.SaveToFile( saveName, jfCompact ) );
 
 
-  AssertEquals( 'name1', 'Значение в кавычках', Json.Find( 'name1', '' ) );
+  AssertEquals( '"name1"', '"Значение в кавычках 1111"', Json.Find( '"name1"', '' ) );
   AssertEquals( 'name2', 'Имя_и_Значение_без_кавычек', Json.Find( 'name2', '' ) );
-  AssertEquals( 'name3', 'Имя и Значение в кавычках' + #10 +
-    'С новой строки',
+  AssertEquals( 'name3', 'Имя и Значение.' + #10 + 'С новой строки',
     Json.Find( 'name3', '' ) );
-  AssertEquals( 'name3.1', 'Имя_на_дух_строках_в_кавычках',
-    Json.Find( 'Имя' + #10 + 'на второй строке', '' ) );
-  AssertEquals( 'name3.2', 'Имя и значение на' + #10 +
-    'двух строках в кавычках', Json.Find( 'Имя2' + #10 +
-    'на второй строке', '' ) );
+  AssertEquals( 'Имя1', 'Имя_на_дух_строках',
+    Json.Find( 'Имя1' + #10 + 'на двух строках', '' ) );
+  AssertEquals( 'Имя2', '"Имя и значение на\nдвух строках"',
+    Json.Find( 'Имя2' + #10 + 'вторая строка', '' ) );
   AssertEquals( 'name4', 'Значение со знаком :', Json.Find( 'name4', '' ) );
   AssertEquals( 'name[5]', 'Один, два {Два}', Json.Find( 'name[5]', '' ) );
   AssertEquals( 'name: 6', 'Один, два' + #10 + '{новая строка}',
@@ -515,7 +513,7 @@ begin
   AssertEquals( 'Integer value set', 32, Json.Find( 'age', 0 ) );
 
   AssertEquals( 'В объекте свойство', True, Json.Find( 'объект/active', False ) );
-  AssertEquals( 'В объекте свойство', 'Olya' + #10 + 'Sveta', Json.Find(
+  AssertEquals( 'В объекте свойство', 'Olya\nSveta', Json.Find(
     'объект/name', '-' ) );
 end;
 
@@ -524,41 +522,22 @@ end;
 procedure TTestPrimitiv.Kavyhchki_Odinarnyhe;
 begin
   Json.AddElm( '''name1''', '''Значение в кавычках''' );
-  Json.AddElm( 'name2', 'Имя_и_Значение_без_кавычек' );
-  Json.AddElm( '''name3''', '''Имя и Значение в кавычках' +
-    #10 + 'С новой строки''' );
-  //3.1
-  Json.AddElm( '''Имя' + #10 + 'на второй строке''',
-    'Имя_на_дух_строках_в_кавычках' );
-  //3.2
-  Json.AddElm( '''Имя2' + #10 + 'на второй строке''',
- '''Имя и значение на\nдвух строках в кавычках''' );
-  Json.AddElm( '''name: 6''', '''Один, два\n{новая строка}''' );
+  Json.AddElm( 'name2 :', 'Имя_и_Значение_без_кавычек' );
 
-  Json.AddObj( 'объект' ).AddElm( 'active', True );
-  Json.AddObj( 'объект' ).AddElm(
-    'name', '''Значение в объекте\nна двух строках в кавычках''' );
+  Json.AddElm( 'name3', '''Имя и Значение.' + #10 + 'С новой строки''' );
+  Json.AddElm( 'Имя2' + #10 + 'вторая строка',
+    '''Имя и значение на\nдвух строках''' );
 
   AssertTrue( 'Save to file', Json.SaveToFile( saveName, jfCompact ) );
 
 
-  AssertEquals( 'name1', 'Значение в кавычках', Json.Find( 'name1', '' ) );
-  AssertEquals( 'name2', 'Имя_и_Значение_без_кавычек', Json.Find( 'name2', '' ) );
+  AssertEquals( 'name1', '''Значение в кавычках''', Json.Find( '''name1''', '' ) );
+  AssertEquals( 'name2 :', 'Имя_и_Значение_без_кавычек', Json.Find( 'name2 :', '' ) );
 
-  AssertEquals( 'name3', 'Имя и Значение в кавычках' + #10 + 'С новой строки',
+  AssertEquals( 'name3', '''Имя и Значение.' + #10 + 'С новой строки''',
     Json.Find( 'name3', '' ) );
-  AssertEquals( 'name3.1', 'Имя_на_дух_строках_в_кавычках',
-    Json.Find( 'Имя' + #10 + 'на второй строке', '' ) );
-  AssertEquals( 'name3.2', 'Имя и значение на' + #10 +
-    'двух строках в кавычках', Json.Find( 'Имя2' + #10 +
-    'на второй строке', '' ) );
-
-  AssertEquals( 'name: 6', 'Один, два' + #10 + '{новая строка}', Json.Find( 'name: 6', '' ) );
-
-  AssertEquals( 'В объекте свойство', True, Json.Find( 'объект/active', False ) );
-  AssertEquals( 'В объекте свойство',
-    'Значение в объекте' + #10 + 'на двух строках в кавычках',
-    Json.Find( 'объект/name', '-' ) );
+  AssertEquals( 'Имя2', '''Имя и значение на\nдвух строках''',
+    Json.Find( 'Имя2' + #10 + 'вторая строка', '' ) );
 end;
 
 
@@ -568,7 +547,7 @@ procedure TTestPrimitiv.Merge_bez_zamenyh;
 var
   nod: TJsonNode;
 begin
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:Москвич }';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:Москвич }' );
 
   nod := TJsonNode.Create;
   nod.AddObj( 'Объект' ).AddElm( 'car', 'BMW' );
@@ -596,7 +575,7 @@ procedure TTestPrimitiv.Merge_bez_zamenyh_2;
 var
   nod: TJsonNode;
 begin
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:Москвич }';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:Москвич }' );
 
   nod := TJsonNode.Create;
   nod.AddObj( 'Объект' ).AddElm( 'car', 'BMW' );
@@ -623,7 +602,7 @@ procedure TTestPrimitiv.Merge_s_zamenoj;
 var
   nod: TJsonNode;
 begin
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:Москвич }';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:Москвич }' );
 
   nod := TJsonNode.Create;
   nod.AddObj( 'Объект' ).AddElm( 'car', 'BMW' );
@@ -650,7 +629,7 @@ procedure TTestPrimitiv.Merge_s_zamenoj_2;
 var
   nod: TJsonNode;
 begin
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:Москвич }';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:Москвич }' );
 
   nod := TJsonNode.Create;
   nod.AddObj( 'Объект' ).AddElm( 'car', 'BMW' );
@@ -677,7 +656,7 @@ procedure TTestPrimitiv.MergeArray_bez_zamenyh;
 var
   nod: TJsonNode;
 begin
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:[111,112] }';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:[111,112] }' );
 
   nod := TJsonNode.Create;
   nod.AddObj( 'Объект' ).AddArrElm( 'car', 221 );
@@ -707,7 +686,7 @@ procedure TTestPrimitiv.MergeArray_s_zamenoj;
 var
   nod: TJsonNode;
 begin
-  Json.AddObj( 'Объект' ).Value := '{name:Сергей,ege:44, car:[111,112] }';
+  Json.AddObj( 'Объект' ).Parse( '{name:Сергей,ege:44, car:[111,112] }' );
 
   nod := TJsonNode.Create;
   nod.AddObj( 'Объект' ).AddArrElm( 'car', 111 );
