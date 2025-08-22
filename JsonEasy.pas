@@ -440,9 +440,10 @@ type
 
 
 const
-  stackMax  = 1000000;
-  HexDigit  = ['0'..'9', 'A'..'F', 'a'..'f'];
-  HexDigits = '0123456789ABCDEFabcdef';
+  stackMax = 1000000;
+  HexDigit = ['0'..'9', 'A'..'F', 'a'..'f'];
+  HexDigitM: array [0..21] of shortstring = ( '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+    'A', 'B', 'C', 'D', 'E', 'F', 'a', 'b', 'c', 'd', 'e', 'f' );
 
 var
   DefFormatSettings: TFormatSettings;
@@ -605,11 +606,15 @@ end;
 procedure ParseStringToken( var pJS: pchar; out Token: TJsonToken );
 label
   U1, U2, U3;
+const
+  Zero = Ord( '0' );
+  AUp  = Ord( 'A' ) + 10;
+  ALo  = Ord( 'a' ) + 10;
 var
   Start: pchar;
-  Skip:  integer;
-  s0:    char;
-  s:     string[5];
+  Skip, J, i: integer;
+  HexVal: cardinal;
+  s0: char;
 
   procedure endToken; inline;
   begin
@@ -635,32 +640,48 @@ begin
       '\': // Обработка escape-последовательностей
         begin
         Inc( pJS );
-        if pJS^ = #0 then Exit;
-
-        case pJS^ of
-          '"', '''', '\', '/', 'b', 'f', 'n', 'r', 't': Inc( pJS ); //экранирование
-          'u':
+        if pJS^ = #0 then
+          begin
+          if not ( s0 in ['"', ''''] ) then
             begin
-            // Unicode символ \uXXXX
-            if not ( ( pJS[1] in HexDigit ) and ( pJS[2] in HexDigit ) and
-              ( pJS[3] in HexDigit ) and ( pJS[4] in HexDigit ) ) then
-              Exit;
+            endToken;
+            Inc( pJS );
+            end;
+          Break;
+          end;
 
-            s := Utf8ToAnsi( Copy( pJS, 0, 5 ) );
-            Inc( pJS, 5 );
-
-            //обработка Unicode символов
-            case s of
-              '"', '''': goto U1;
-              ' ', '{', '}', '[', ']', ',', ':', #0: goto U2;
-              #10: goto U3;
-              else;
+        if ( pJS^ = 'u' ) then  // Unicode символ \uXXXX
+          begin
+          HexVal := 0;
+          for J := 1 to 4 do
+            begin
+            Inc( pJS );
+            if pJS^ = #0 then
+              begin
+              if not ( s0 in ['"', ''''] ) then
+                endToken;
+              break;
               end;
 
+            case pJS^ of
+              '0'..'9': HexVal := ( HexVal shl 4 ) + ( Ord( pJS^ ) - Zero );
+              'A'..'F': HexVal := ( HexVal shl 4 ) + ( Ord( pJS^ ) - AUp );
+              'a'..'f': HexVal := ( HexVal shl 4 ) + ( Ord( pJS^ ) - ALo );
+              else;
+              end;
             end;
-          else
-            Exit; // Недопустимый escape-символ
-          end;
+
+          //обработка Unicode символов
+          case UnicodeToUTF8( HexVal ) of
+            '"', '''': goto U1;
+            ' ', '{', '}', '[', ']', ',', ':', #0: goto U2;
+            #10: goto U3;
+            else;
+            end;
+          //end
+          end
+        else   // следующий символ - не escape-символ - пропустить
+          Inc( pJS );
         end;
 
       '"', '''':     // в начале была одна из кавычек
@@ -2590,9 +2611,9 @@ end;
 2023-08-24T20:45:03.408Z }
 function JsonStringEncode( const S: string ): string;
 var
-  I, j:  integer;
-  C:     char;
-  UChar: cardinal;
+  I, j:     integer;
+  C:        char;
+  UChar, k: cardinal;
 begin
   if S = '' then
     Exit( '""' );
@@ -2612,34 +2633,22 @@ begin
       '"', '\': Result := Result + '\' + C;
       else
         if C < ' ' then
-          Result := Result + '\u00' + HexDigits[Ord( C ) shr 4] + HexDigits[Ord( C ) and $F]
+          Result := Result + '\u00' + HexDigitm[Ord( C ) shr 4] + HexDigitm[Ord( C ) and $F]
         else
           begin
           // Обработка UTF-8 символов
-          //UChar := UTF8CharacterToUnicode( @S[I], Length( S ) - I + 1 );
           UChar := UTF8CodepointToUnicode( @S[I], j );
-          if UChar < $80 then
+          if UChar < $7F then
             Result += C
           else
-            if UChar < $800 then //10FFFF
+            if UChar <= $7FF then //10FFFF
               Result += Chr( ( UChar shr $6 ) + $C0 ) + Chr( ( UChar and $3F ) + $80 )
-            //Result+=UnicodeToUTF8(UChar)
-            //Result += Copy( s, i, j )
             else
               begin
-              Result += '\u' + HexDigits[( UChar shr 8 ) and $F] + ///
-                HexDigits[( UChar shr 4 ) and $F] + HexDigits[UChar and $F];
+              Result += '\u' + HexDigitM[( UChar shr 12 ) and $F] + HexDigitM[( UChar shr 8 ) and $F] +
+                HexDigitM[( UChar shr 4 ) and $F] + HexDigitM[UChar and $F];
               Inc( I ); // Пропускаем дополнительный байт для surrogate pair
               end;
-
-
-          //if UChar > $7FFF then //$FFFF then
-          //  begin
-          //  HexStr := '\u' + HexDigits[( UChar shr 12 ) and $F] + HexDigits[( UChar shr 8 ) and $F] +
-          //    HexDigits[( UChar shr 4 ) and $F] + HexDigits[UChar and $F];
-          //  Result := Result + HexStr;
-          //  Inc( I ); // Пропускаем дополнительный байт для surrogate pair
-          //  end;
           end;
       end;
     Inc( I, j );
@@ -2666,15 +2675,16 @@ end;
 function HexToByte( C: char ): byte; inline;
 const
   Zero = Ord( '0' );
-  UpA  = Ord( 'A' );
-  LoA  = Ord( 'a' );
+  AUp  = Ord( 'A' );
+  ALo  = Ord( 'a' );
 begin
   if C < 'A' then
     Result := Ord( C ) - Zero
-  else if C < 'a' then
-      Result := Ord( C ) - UpA + 10
+  else
+    if C < 'a' then
+      Result := Ord( C ) - AUp + 10
     else
-      Result := Ord( C ) - LoA + 10;
+      Result := Ord( C ) - ALo + 10;
 end;
 
 function HexToInt( A, B, C, D: char ): integer; inline;
@@ -2684,12 +2694,15 @@ end;
 
 // преобразует строку json в строку pascal.
 function JsonStringDecode( const S: string ): string;
+const
+  Zero = Ord( '0' );
+  AUp  = Ord( 'A' ) + 10;
+  ALo  = Ord( 'a' ) + 10;
 var
   I:      integer = 1;
   j, Len: integer;
   C:      char;
-  HexVal: integer;
-  UChar:  cardinal;
+  HexVal: cardinal;
 begin
   if S = '' then  Exit( '' );
 
@@ -2720,13 +2733,12 @@ begin
 
             C := S[I];
             case C of
-              '0'..'9': HexVal := ( HexVal shl 4 ) + ( Ord( C ) - Ord( '0' ) );
-              'A'..'F': HexVal := ( HexVal shl 4 ) + ( Ord( C ) - Ord( 'A' ) + 10 );
-              'a'..'f': HexVal := ( HexVal shl 4 ) + ( Ord( C ) - Ord( 'a' ) + 10 );
+              '0'..'9': HexVal := ( HexVal shl 4 ) + ( Ord( C ) - Zero );
+              'A'..'F': HexVal := ( HexVal shl 4 ) + ( Ord( C ) - AUp );
+              'a'..'f': HexVal := ( HexVal shl 4 ) + ( Ord( C ) - ALo );
               end;
             end;
-          UChar  := HexVal;
-          Result := Result + UnicodeToUTF8( UChar );
+          Result := Result + UnicodeToUTF8( HexVal );
           end;
         else
           Result := Result + C;
@@ -2779,7 +2791,7 @@ const
     Result := '';
     Randomize;
     for i := 1 to 3 do
-      Result += HexDigits[RandomRange( 1, 16 )];
+      Result += HexDigitm[RandomRange( 0, 15 )];
   end;
 
   function EnumNodes( P: TJsonNode; const Indent: string ): string;
