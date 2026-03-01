@@ -2,6 +2,7 @@
 Небольшой парсер JSON на основе Free Pascal в одном модуле без зависимостей.
 A small pascal based json parser in one unit with no dependencies.
 
+
 JsonNode - это класс, используемый для анализа, создания и навигации по документу в формате json.
   Вам следует только создать и освободить корневой узел вашего документа. Корневой
 узел будет управлять временем жизни всех дочерних узлов с помощью таких методов,
@@ -65,7 +66,7 @@ JsonNode - это класс, используемый для анализа, с
 
 * Перебор всех параметров узла:
     1) for Node in JsonObjectOrArray do
-     2) Node := Node.First, next, pred, Last, ChildFirst, ChildLast
+    2) Node := Node.First, next, pred, Last, ChildFirst, ChildLast
 
-* Освободить память:
+* Освободить память: 
    jCfg.Root.Free;
