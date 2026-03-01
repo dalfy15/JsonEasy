@@ -2647,7 +2647,6 @@ begin
               begin
               Result += '\u' + HexDigitM[( UChar shr 12 ) and $F] + HexDigitM[( UChar shr 8 ) and $F] +
                 HexDigitM[( UChar shr 4 ) and $F] + HexDigitM[UChar and $F];
-              Inc( I ); // Пропускаем дополнительный байт для surrogate pair
               end;
           end;
       end;
